@@ -24,7 +24,8 @@ public class RAID0 {
     private File disco1;
     private File disco2;
     
-    public RAID0(){}
+    public RAID0(){
+    } 
     public RAID0(File archivoOrigen) {
         this.archivoOrigen = archivoOrigen;
         String nombreArch = archivoOrigen.getName().split(".txt")[0];
@@ -75,12 +76,22 @@ public class RAID0 {
                 FileWriter escritorGenerado = new FileWriter(generado);
                 String linea1 ="";
                 String linea2 ="";
-                while(((linea1 = buffer1.readLine())!=null) && ((linea2 = buffer2.readLine())!=null)){
-                    if(linea1!=null){
-                    escritorGenerado.write(linea1);
+                boolean flag = true;
+                int cont=0;
+                while( flag ){
+                    if(cont%2==0){
+                        if((linea1 = buffer1.readLine())!=null){
+                        escritorGenerado.write(linea1 +"\n");
+                        }
                     }
-                    if(linea2!=null){
-                    escritorGenerado.write(linea2);
+                    else{
+                        if((linea2 = buffer2.readLine())!=null){
+                        escritorGenerado.write(linea2 +"\n");
+                        }
+                    }
+                    cont++;
+                    if(linea1 ==null && linea2==null){
+                        flag=false;
                     }
                 }
                 escritorGenerado.close();  
