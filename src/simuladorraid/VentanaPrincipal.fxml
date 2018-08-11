@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="649.0" prefWidth="678.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" prefHeight="649.0" prefWidth="678.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="simuladorraid.VentanaPrincipalController">
    <children>
       <BorderPane prefHeight="639.0" prefWidth="678.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -30,8 +30,8 @@
                   </Label>
                   <HBox prefHeight="0.0" prefWidth="678.0" spacing="15.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Seleccionar Archivo" />
-                        <Label prefHeight="24.0" prefWidth="439.0" text="archivo/jsjsjjs/archivos/archivo.txt" />
+                        <Button fx:id="botonArchivo" mnemonicParsing="false" onAction="#accionBotonArchivo" text="Seleccionar Archivo" />
+                        <Label fx:id="labelRutaArchivo" prefHeight="24.0" prefWidth="439.0" text="archivo/jsjsjjs/archivos/archivo.txt" />
                      </children>
                      <padding>
                         <Insets bottom="10.0" right="5.0" />
@@ -40,7 +40,7 @@
                   <HBox alignment="CENTER_LEFT" spacing="15.0">
                      <children>
                         <Label text="Seleccione RAID:" />
-                        <ComboBox prefWidth="150.0" />
+                        <ComboBox fx:id="comboRAID" onAction="#accionComboRAID" prefWidth="150.0" />
                      </children>
                      <opaqueInsets>
                         <Insets />
@@ -51,7 +51,7 @@
                   </HBox>
                   <HBox>
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="120.0" text="Ejecutar">
+                        <Button fx:id="botonEjecutar" mnemonicParsing="false" onAction="#accionBotonEjecutar" prefHeight="37.0" prefWidth="120.0" text="Ejecutar">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -70,13 +70,13 @@
          <left>
             <VBox spacing="5.0">
                <children>
-                  <TableView prefHeight="393.0" prefWidth="200.0">
+                  <TableView fx:id="tablaArchivo" prefHeight="393.0" prefWidth="200.0">
                     <columns>
-                      <TableColumn prefWidth="136.0" text="Archivo" />
-                      <TableColumn prefWidth="63.0" text="RAID" />
+                      <TableColumn fx:id="columnaArchivo" prefWidth="136.0" text="Archivo" />
+                      <TableColumn fx:id="columnaRAID" prefWidth="63.0" text="RAID" />
                     </columns>
                   </TableView>
-                  <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="195.0" text="Mostrar" />
+                  <Button fx:id="botonMostrar" mnemonicParsing="false" onAction="#accionBotonMostrar" prefHeight="37.0" prefWidth="195.0" text="Mostrar" />
                </children>
                <opaqueInsets>
                   <Insets />
@@ -89,7 +89,7 @@
          <center>
             <VBox BorderPane.alignment="CENTER">
                <children>
-                  <TextArea disable="true" prefHeight="477.0" prefWidth="441.0" />
+                  <TextArea fx:id="textAreaMostrar" disable="true" prefHeight="477.0" prefWidth="441.0" />
                </children>
                <padding>
                   <Insets bottom="10.0" right="10.0" top="10.0" />
@@ -99,7 +99,7 @@
          <bottom>
             <VBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="678.0" BorderPane.alignment="TOP_RIGHT">
                <children>
-                  <Label text="Abriendo archivo prueba.txt con RAID 0..." />
+                  <Label fx:id="labelRetroalimentacion" text="Abriendo archivo prueba.txt con RAID 0..." />
                </children>
                <padding>
                   <Insets left="10.0" />
