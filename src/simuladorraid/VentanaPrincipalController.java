@@ -88,7 +88,6 @@ public class VentanaPrincipalController implements Initializable {
             for (final String ficheroEntrada : carpeta.list()) {
                 DatoTabla nuevo = new DatoTabla(ficheroEntrada, tipo);
                 this.datos.add(nuevo);
-            System.out.println(ficheroEntrada);
             }
         }
 }
@@ -144,7 +143,8 @@ public class VentanaPrincipalController implements Initializable {
                     RAID2 raid2 = new RAID2();
                     break;
                 case "RAID3":
-                    RAID3 raid3 = new RAID3();
+                    RAID3 raid3 = new RAID3(archivoAbierto);
+                    raid3.ejecutarAlgoritmo();
                     break;
                 case "RAID4":
                     RAID4 raid4 = new RAID4();
@@ -187,6 +187,8 @@ public class VentanaPrincipalController implements Initializable {
                     break;
                 case "RAID3":
                     RAID3 raid3 = new RAID3();
+                    File arch3 = raid3.generarArchivo(dato.getNombreArchivo());
+                    this.mostrarArchivoVentana(arch3);
                     break;
                 case "RAID4":
                     RAID4 raid4 = new RAID4();
