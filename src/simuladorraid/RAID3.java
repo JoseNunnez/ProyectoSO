@@ -1,7 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Se dividen los datos segun bytes, que para este caso será por cada linea de texto que el 
+arcivo tenga, por lo tanto, por cada linea del archivo se va repartiendo entre los 3 discos
+para posteriormente calcular cada line a nivel de byte, para despues sumar todos los bytes
+cuya suma es utilizada para generar un bit de paridad
+que es almacenada en el disco de paridad, si ocurre un fallo, se podría calcular los bytes restantes 
+y por consiguiente se puede volver a restaurar el texto perdido (ESTO ULTIMO NO ESTA 
+CONSIDERADO EN ESTA IMPLEMENTACIÓN)
  */
 package simuladorraid;
 
@@ -187,6 +191,7 @@ public class RAID3 {
         return generado;
     }
     
+    //NOSE LO QUE HACEE
     public static short calularParidad(long x) {
 
         short result = 0;
