@@ -102,25 +102,24 @@ public class RAID5 {
         }
     }
     
-    public File generarArchivo(String nombreArchivo){
-        
+    public void generarArchivo(String nombreArchivo, VentanaPrincipalController vp){
+        VentanaPrincipalController ventana = vp;
         String _pathPrograma = new File ("").getAbsolutePath ();
-        File generado = new File(_pathPrograma+"/RAID5/"+nombreArchivo+"/generado.txt");
         switch(retornarMayor(nombreArchivo)){
             case 1:
                 System.out.println("Leyendo disco 2 y 3");
-                return generarArchivoCompleto(nombreArchivo, "disco2.txt",
-                                                             "disco3.txt");
+                generarArchivoCompleto(nombreArchivo, "disco2.txt",
+                                       "disco3.txt", ventana);
             case 2:
                 System.out.println("Leyendo disco 1 y 3");
-                return generarArchivoCompleto(nombreArchivo, "disco1.txt",
-                                                             "disco3.txt");
+                generarArchivoCompleto(nombreArchivo, "disco1.txt",
+                                       "disco3.txt", ventana);
             case 3:
                 System.out.println("Leyendo disco 1 y 2");
-                return generarArchivoCompleto(nombreArchivo, "disco1.txt",
-                                                             "disco2.txt");
+                generarArchivoCompleto(nombreArchivo, "disco1.txt",
+                                       "disco2.txt", ventana);
         }
-        return generado;
+
     }
     
     public int retornarMayor(String nombreArchivo){
@@ -151,24 +150,23 @@ public class RAID5 {
         return 0;
     }
     
-    public File generarArchivoCompleto(String nombreArchivo,String archivo1, String archivo2){
+    public void generarArchivoCompleto(String nombreArchivo,String archivo1, String archivo2, 
+                                       VentanaPrincipalController vp){
+        VentanaPrincipalController ventana = vp;
         String _pathPrograma = new File ("").getAbsolutePath ();
-        File generado = new File(_pathPrograma+"/RAID5/"+nombreArchivo+"/generado.txt");
         try {
             FileReader disco1 = new FileReader(_pathPrograma+"/RAID5/"+nombreArchivo+"/"+archivo1);
             BufferedReader buffer1 = new BufferedReader(disco1);
             FileReader disco2 = new FileReader(_pathPrograma+"/RAID5/"+nombreArchivo+"/"+archivo2);
             BufferedReader buffer2 = new BufferedReader(disco2);
             try {
-                FileWriter escritorGenerado = new FileWriter(generado);
                 String linea ="";
                 while((linea = buffer1.readLine())!=null) {
-                    escritorGenerado.write(linea+"\r\n");
+                    ventana.modificarTextArea(linea+"\r\n");
                 }
                 while((linea = buffer2.readLine())!=null) {
-                    escritorGenerado.write(linea+"\r\n");
+                    ventana.modificarTextArea(linea+"\r\n");
                 }
-                escritorGenerado.close();
             }
             catch (IOException ex) {
 
@@ -177,6 +175,5 @@ public class RAID5 {
         catch (FileNotFoundException ex) {
             Logger.getLogger(RAID5.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return generado;
     }
 }
