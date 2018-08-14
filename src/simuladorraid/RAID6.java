@@ -63,7 +63,7 @@ public class RAID6 {
                         byte resultado = this.sumarBytes(arr1, arr2);
                         //se obtiene el bit de paridad para las tres lineas
                         short paridadXOR = this.calcularParidadXOR((long)resultado);
-                        int paridad2=0;//HACER FUNCION PARA PARIDAD 2 !!!!!!!!!!!!!!!!!!!!!!
+                        int paridad2=bytesPares(resultado);//HACER FUNCION PARA PARIDAD 2 !!!!!!!!!!!!!!!!!!!!!!
                         
                         this.escribirLineas(posParidad, escritorDisco1,
                                             escritorDisco2, escritorDisco3,
@@ -98,7 +98,7 @@ public class RAID6 {
             byte resultado = this.sumarBytes(arr1, arr2);
             //se obtiene el bit de paridad para las tres lineas
             short paridad1 = this.calcularParidadXOR((long)resultado);
-            int paridad2 = 0; //FUNCION PARA CALCULAR PARIDAD 2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            int paridad2 = bytesPares(resultado);
             
             this.escribirLineas(posParidad, escritorDisco1, escritorDisco2,
                                 escritorDisco3, escritorDisco4, paridad1+"", paridad2+"",
@@ -284,7 +284,7 @@ public class RAID6 {
                 byte resultado = this.sumarBytes(arr1, arr2);
                 //se obtiene el bit de paridad para las tres lineas
                 short calculoP1 = this.calcularParidadXOR((long)resultado);
-                int calculoP2 = 0; //FUNCION PARA CALCULAR PRIORIDAD !!!!!!!!!!!!!!!!!!!!!!!!!!
+                int calculoP2 = bytesPares(resultado);
                 
                 if(paridad1.equals(calculoP1+"") && paridad2.equals(
                                 calculoP2+"")){
@@ -387,4 +387,14 @@ public class RAID6 {
         return result;
 
       }
+    /**
+     * Se hace esta funcion para cumplir con otro criterio de calculo de paridad
+     * Por motivos de tiempo no se pudo crear uno mas especifico para RAID6
+     * @param texto
+     * @return 
+     */
+    private int bytesPares(byte texto){
+        if(texto%2==0)return 1;
+        return 0;
+    }
 }
