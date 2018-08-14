@@ -151,7 +151,8 @@ public class VentanaPrincipalController implements Initializable {
                     raid5.ejecutarAlgoritmo();
                     break;
                 case "RAID6":
-                    RAID6 raid6 = new RAID6();
+                    RAID6 raid6 = new RAID6(archivoAbierto);
+                    raid6.ejecutarAlgoritmo();
                     break;
             }
             this.updateTabla();
@@ -193,6 +194,7 @@ public class VentanaPrincipalController implements Initializable {
                     break;
                 case "RAID6":
                     RAID6 raid6 = new RAID6();
+                    raid6.generarArchivo(dato.getNombreArchivo(), this);
                     break;
             }
         }
