@@ -135,11 +135,10 @@ public class RAID4 {
          return (byte)(b1+b2+b3);
     }
     
-    //SE ENVIA EL NOMBRE : archivo.txt
-    public File generarArchivo(String nombreArchivo){
-        
+    //SE ENVIA EL NOMBRE : archivo
+    public void generarArchivo(String nombreArchivo, VentanaPrincipalController vp){
+        VentanaPrincipalController ventana = vp;
         String _pathPrograma = new File ("").getAbsolutePath ();
-        File generado = new File(_pathPrograma+"/RAID4/"+nombreArchivo+"/generado.txt");
         try {
             FileReader disco1 = new FileReader(_pathPrograma+"/RAID4/"+nombreArchivo+"/"+"disco1.txt");
             BufferedReader buffer1 = new BufferedReader(disco1);
@@ -151,7 +150,6 @@ public class RAID4 {
             BufferedReader buffer4 = new BufferedReader(discoP);
             try {
                 
-                FileWriter escritorGenerado = new FileWriter(generado);
                 String linea1 ="";
                 String linea2 ="";
                 String linea3 ="";
@@ -169,7 +167,6 @@ public class RAID4 {
                             else 
                             {
                                 x1=false;
-                                System.out.println("x1 falso");
                                 i=10;
                             }
                         }
@@ -205,14 +202,10 @@ public class RAID4 {
                             }
                             else {
                                 i=10;
-                                System.out.println("x3 falso");
                                 x3=false;}
                         }
                         else{
-                            System.out.println("l1:"+linea1);
-                            System.out.println("l2:"+linea2);
-                            System.out.println("l3:"+linea3);
-                           
+
                            //SE PROCEDE A CALCULAR LA PARIDAD DE LAS LINEAS PARA COMPARARLAS CON 
                            //LAS AMACENADAS EN EL DISCO DE PARIDAD
                            byte[] arr1 ={},arr2={},arr3={};
@@ -227,9 +220,9 @@ public class RAID4 {
                             if(lineaP!=null){
                                 //SI LA INFO PERMANECE CORRECTA SE INSERTA EN EL ARCHIVO GENERADO
                                 if(lineaP.equals(calculo+"")){
-                                    if(linea1!="")escritorGenerado.write(linea1);
-                                    if(linea2!="")escritorGenerado.write(linea2);
-                                    if(linea3!="")escritorGenerado.write(linea3);
+                                    if(linea1!="")ventana.modificarTextArea(linea1);
+                                    if(linea2!="")ventana.modificarTextArea(linea2);
+                                    if(linea3!="")ventana.modificarTextArea(linea3);
                                     linea1="";
                                     linea2="";
                                     linea3="";
@@ -246,7 +239,6 @@ public class RAID4 {
                         flag=false;
                     }
                 }
-                escritorGenerado.close();  
             }
             catch (IOException ex) {
 
@@ -254,7 +246,6 @@ public class RAID4 {
         }
         catch (FileNotFoundException ex) {
         }
-        return generado;
     }
     
     //NOSE LO QUE HACEE

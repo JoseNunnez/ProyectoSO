@@ -119,10 +119,9 @@ public class RAID3 {
     }
     
     //SE ENVIA EL NOMBRE : archivo.txt
-    public File generarArchivo(String nombreArchivo){
-        
+    public void generarArchivo(String nombreArchivo, VentanaPrincipalController vp){
+        VentanaPrincipalController ventana = vp;
         String _pathPrograma = new File ("").getAbsolutePath ();
-        File generado = new File(_pathPrograma+"/RAID3/"+nombreArchivo+"/generado.txt");
         try {
             FileReader disco1 = new FileReader(_pathPrograma+"/RAID3/"+nombreArchivo+"/"+"disco1.txt");
             BufferedReader buffer1 = new BufferedReader(disco1);
@@ -134,7 +133,6 @@ public class RAID3 {
             BufferedReader buffer4 = new BufferedReader(discoP);
             try {
                 
-                FileWriter escritorGenerado = new FileWriter(generado);
                 String linea1 ="";
                 String linea2 ="";
                 String linea3 ="";
@@ -165,9 +163,9 @@ public class RAID3 {
                         if(lineaP!=null){
                             //SI LA INFO PERMANECE CORRECTA SE INSERTA EN EL ARCHIVO GENERADO
                             if(lineaP.equals(calculo+"")){
-                                if(linea1!=null)escritorGenerado.write(linea1 +"\n");
-                                if(linea2!=null)escritorGenerado.write(linea2+"\n");
-                                if(linea3!=null)escritorGenerado.write(linea3+"\n");
+                                if(linea1!=null)ventana.modificarTextArea(linea1+"\n");
+                                if(linea2!=null)ventana.modificarTextArea(linea2+"\n");
+                                if(linea3!=null)ventana.modificarTextArea(linea3+"\n");
                             }
                             else{
                                 System.out.println("error");
@@ -180,7 +178,7 @@ public class RAID3 {
                         flag=false;
                     }
                 }
-                escritorGenerado.close();  
+
             }
             catch (IOException ex) {
 
@@ -188,7 +186,6 @@ public class RAID3 {
         }
         catch (FileNotFoundException ex) {
         }
-        return generado;
     }
     
     //NOSE LO QUE HACEE

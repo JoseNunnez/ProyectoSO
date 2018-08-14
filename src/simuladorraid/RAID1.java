@@ -22,6 +22,7 @@ public class RAID1 {
     private File archivoOrigen;
     private File disco1;
     private File disco2;
+
     
     public RAID1(){}
     
@@ -54,24 +55,22 @@ public class RAID1 {
         }
     }
     
-    public File generarArchivo(String nombreArchivo){
-        
+    public void generarArchivo(String nombreArchivo,VentanaPrincipalController vp){
+        VentanaPrincipalController ventana=vp;
         String _pathPrograma = new File ("").getAbsolutePath ();
-        File generado = new File(_pathPrograma+"/RAID1/"+nombreArchivo+"/generado.txt");
+
         boolean exito = false;
         try {
             FileReader disco1 = new FileReader(_pathPrograma+"/RAID1/"+nombreArchivo+"/"+"disco1.txt");
             BufferedReader buffer1 = new BufferedReader(disco1);     
             try {
-                FileWriter escritorGenerado = new FileWriter(generado);
                 String linea1 ="";
                 while((linea1 = buffer1.readLine())!=null){
                     if(linea1!=null){
-                    escritorGenerado.write(linea1+"\n");
+                        ventana.modificarTextArea(linea1+"\n");
                     }
                 }
                 exito = true;
-                escritorGenerado.close();  
             }
             catch (IOException ex) {
             }
@@ -84,14 +83,12 @@ public class RAID1 {
                 FileReader disco2 = new FileReader(_pathPrograma+"/RAID1/"+nombreArchivo+"/"+"disco2.txt");
                 BufferedReader buffer2 = new BufferedReader(disco2);    
                 try {
-                    FileWriter escritorGenerado = new FileWriter(generado);
                     String linea2 ="";
                     while((linea2 = buffer2.readLine())!=null){
                         if(linea2!=null){
-                            escritorGenerado.write(linea2+"\n");
+                            ventana.modificarTextArea(linea2+"\n");
                         }
                     }
-                    escritorGenerado.close();  
                 }
                 catch (IOException ex) {
                 }
@@ -100,7 +97,6 @@ public class RAID1 {
                 Logger.getLogger(RAID1.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        return generado;
     }
     
 }

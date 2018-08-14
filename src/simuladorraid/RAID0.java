@@ -20,13 +20,15 @@ import java.util.logging.Logger;
  */
 public class RAID0 {
     private File archivoOrigen;
+    private VentanaPrincipalController vp;
 
     private File disco1;
     private File disco2;
     
     public RAID0(){
     } 
-    public RAID0(File archivoOrigen) {
+    public RAID0(File archivoOrigen ,VentanaPrincipalController vp) {
+        this.vp=vp;
         this.archivoOrigen = archivoOrigen;
         String nombreArch = archivoOrigen.getName().split(".txt")[0];
         String _pathPrograma = new File ("").getAbsolutePath ();
@@ -61,10 +63,9 @@ public class RAID0 {
     }
     
     //SE ENVIA EL NOMBRE : archivo.txt
-    public File generarArchivo(String nombreArchivo){
-        
+    public void generarArchivo(String nombreArchivo,VentanaPrincipalController vp){
+        this.vp = vp;
         String _pathPrograma = new File ("").getAbsolutePath ();
-        File generado = new File(_pathPrograma+"/RAID0/"+nombreArchivo+"/generado.txt");
         try {
             FileReader disco1 = new FileReader(_pathPrograma+"/RAID0/"+nombreArchivo+"/"+"disco1.txt");
             BufferedReader buffer1 = new BufferedReader(disco1);
@@ -72,8 +73,6 @@ public class RAID0 {
             BufferedReader buffer2 = new BufferedReader(disco2);
             
             try {
-                
-                FileWriter escritorGenerado = new FileWriter(generado);
                 String linea1 ="";
                 String linea2 ="";
                 boolean flag = true;
@@ -81,12 +80,12 @@ public class RAID0 {
                 while( flag ){
                     if(cont%2==0){
                         if((linea1 = buffer1.readLine())!=null){
-                        escritorGenerado.write(linea1 +"\n");
+                        this.vp.modificarTextArea(linea1+"\n");
                         }
                     }
                     else{
                         if((linea2 = buffer2.readLine())!=null){
-                        escritorGenerado.write(linea2 +"\n");
+                        this.vp.modificarTextArea(linea2+"\n");
                         }
                     }
                     cont++;
@@ -94,7 +93,6 @@ public class RAID0 {
                         flag=false;
                     }
                 }
-                escritorGenerado.close();  
             }
             catch (IOException ex) {
 
@@ -103,7 +101,6 @@ public class RAID0 {
         catch (FileNotFoundException ex) {
             Logger.getLogger(RAID0.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return generado;
     }
     
 }
