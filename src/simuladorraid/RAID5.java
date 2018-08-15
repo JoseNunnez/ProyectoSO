@@ -43,21 +43,21 @@ public class RAID5 {
         int max=0;
         switch(random){
             case 1:
-                max = escribirArchivoCompleto(this.disco1);
+                max = escribirParidadArchivo(this.disco1);
                 escribirParteArchivo(this.disco2, this.disco3, max);
                 break;
             case 2:
-                max = escribirArchivoCompleto(this.disco2);
+                max = escribirParidadArchivo(this.disco2);
                 escribirParteArchivo(this.disco1, this.disco3, max);
                 break;
             case 3:
-                max = escribirArchivoCompleto(this.disco3);
+                max = escribirParidadArchivo(this.disco3);
                 escribirParteArchivo(this.disco1, this.disco2, max);
                 break;
         }
     }
     
-    public int escribirArchivoCompleto(File archivo){
+    public int escribirParidadArchivo(File archivo){
         try {
             FileWriter escritorDisco1 = new FileWriter(archivo);
             FileReader f = new FileReader(this.archivoOrigen);
@@ -65,9 +65,9 @@ public class RAID5 {
             String linea ="";
             int cantidadLineas=0;
             while((linea = b.readLine())!=null) {
-                escritorDisco1.write(linea+"\r\n");
                 cantidadLineas++;
             }
+            escritorDisco1.write("00\r\n");//BIT PARA CADA DISCO, SI SE MODIFICA NO SE PUEDE LEER
             escritorDisco1.close();
             return cantidadLineas;
         }
@@ -102,27 +102,33 @@ public class RAID5 {
         }
     }
     
-    public void generarArchivo(String nombreArchivo, VentanaPrincipalController vp){
+    public void generarArchivo(String nombreArchivo, VentanaPrincipalController vp) throws IOException{
         VentanaPrincipalController ventana = vp;
         String _pathPrograma = new File ("").getAbsolutePath ();
-        switch(retornarMayor(nombreArchivo)){
+        switch(verificarParidadEnDisco(nombreArchivo)){
             case 1:
                 System.out.println("Leyendo disco 2 y 3");
                 generarArchivoCompleto(nombreArchivo, "disco2.txt",
                                        "disco3.txt", ventana);
+                break;
             case 2:
                 System.out.println("Leyendo disco 1 y 3");
                 generarArchivoCompleto(nombreArchivo, "disco1.txt",
                                        "disco3.txt", ventana);
+                break;
             case 3:
                 System.out.println("Leyendo disco 1 y 2");
                 generarArchivoCompleto(nombreArchivo, "disco1.txt",
                                        "disco2.txt", ventana);
+                break;
+            default:
+                System.out.println("ERROR EN DISCO DE PARIDAD");
+                break;
         }
 
     }
     
-    public int retornarMayor(String nombreArchivo){
+    public int verificarParidadEnDisco(String nombreArchivo) throws IOException{
         String _pathPrograma = new File ("").getAbsolutePath ();
         try {
             FileReader disco1 = new FileReader(_pathPrograma+"/RAID5/"+nombreArchivo+"/"+"disco1.txt");
@@ -131,16 +137,17 @@ public class RAID5 {
             BufferedReader buffer2 = new BufferedReader(disco2);
             FileReader disco3 = new FileReader(_pathPrograma+"/RAID5/"+nombreArchivo+"/"+"disco3.txt");
             BufferedReader buffer3 = new BufferedReader(disco3);
-            int cant1 = (int)buffer1.lines().count();
-            int cant2 = (int)buffer2.lines().count();
-            int cant3 = (int)buffer3.lines().count();
-            if ( cant1 > cant2 && cant1 > cant3  ) {
+            String paridadEsperada = "00";
+            String primeraLinea1 = buffer1.readLine();
+            String primeraLinea2 = buffer2.readLine();
+            String primeraLinea3 = buffer3.readLine();
+            if (paridadEsperada.equals(primeraLinea1)  ) {
                 return 1;
             }
-            if ( cant2 > cant1 && cant2 > cant3  ) {
+            if ( paridadEsperada.equals(primeraLinea2)  ) {
                 return 2;
             }
-            if ( cant3 > cant1 && cant3 > cant2  ) {
+            if ( paridadEsperada.equals(primeraLinea3)  ) {
                 return 3;
             }         
         }
@@ -159,17 +166,23 @@ public class RAID5 {
             BufferedReader buffer1 = new BufferedReader(disco1);
             FileReader disco2 = new FileReader(_pathPrograma+"/RAID5/"+nombreArchivo+"/"+archivo2);
             BufferedReader buffer2 = new BufferedReader(disco2);
+            String linea ="";
             try {
-                String linea ="";
+                
                 while((linea = buffer1.readLine())!=null) {
-                    ventana.modificarTextArea(linea+"\r\n");
-                }
-                while((linea = buffer2.readLine())!=null) {
                     ventana.modificarTextArea(linea+"\r\n");
                 }
             }
             catch (IOException ex) {
-
+                System.out.println("no se puede leer disco 1");     
+            }
+            try{
+                while((linea = buffer2.readLine())!=null) {
+                    ventana.modificarTextArea(linea+"\r\n");
+                }
+            }
+            catch(IOException ex){
+                System.out.println("no se puede leer disco 2");
             }
         }
         catch (FileNotFoundException ex) {
