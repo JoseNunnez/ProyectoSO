@@ -1,7 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Se dividen los datos segun bytes, que para este caso será por cada linea de texto que el 
+arcivo tenga, por lo tanto, por cada linea del archivo se va repartiendo entre los 3 discos
+para posteriormente calcular cada line a nivel de byte, para despues sumar todos los bytes
+cuya suma es utilizada para generar un bit de paridad
+que es almacenada en el disco de paridad, si ocurre un fallo, se podría calcular los bytes restantes 
+y por consiguiente se puede volver a restaurar el texto perdido (ESTO ULTIMO NO ESTA 
+CONSIDERADO EN ESTA IMPLEMENTACIÓN)
  */
 package simuladorraid;
 
@@ -115,10 +119,9 @@ public class RAID3 {
     }
     
     //SE ENVIA EL NOMBRE : archivo.txt
-    public File generarArchivo(String nombreArchivo){
-        
+    public void generarArchivo(String nombreArchivo, VentanaPrincipalController vp){
+        VentanaPrincipalController ventana = vp;
         String _pathPrograma = new File ("").getAbsolutePath ();
-        File generado = new File(_pathPrograma+"/RAID3/"+nombreArchivo+"/generado.txt");
         try {
             FileReader disco1 = new FileReader(_pathPrograma+"/RAID3/"+nombreArchivo+"/"+"disco1.txt");
             BufferedReader buffer1 = new BufferedReader(disco1);
@@ -130,7 +133,6 @@ public class RAID3 {
             BufferedReader buffer4 = new BufferedReader(discoP);
             try {
                 
-                FileWriter escritorGenerado = new FileWriter(generado);
                 String linea1 ="";
                 String linea2 ="";
                 String linea3 ="";
@@ -161,9 +163,9 @@ public class RAID3 {
                         if(lineaP!=null){
                             //SI LA INFO PERMANECE CORRECTA SE INSERTA EN EL ARCHIVO GENERADO
                             if(lineaP.equals(calculo+"")){
-                                if(linea1!=null)escritorGenerado.write(linea1 +"\n");
-                                if(linea2!=null)escritorGenerado.write(linea2+"\n");
-                                if(linea3!=null)escritorGenerado.write(linea3+"\n");
+                                if(linea1!=null)ventana.modificarTextArea(linea1+"\n");
+                                if(linea2!=null)ventana.modificarTextArea(linea2+"\n");
+                                if(linea3!=null)ventana.modificarTextArea(linea3+"\n");
                             }
                             else{
                                 System.out.println("error");
@@ -176,7 +178,7 @@ public class RAID3 {
                         flag=false;
                     }
                 }
-                escritorGenerado.close();  
+
             }
             catch (IOException ex) {
 
@@ -184,9 +186,9 @@ public class RAID3 {
         }
         catch (FileNotFoundException ex) {
         }
-        return generado;
     }
     
+    //NOSE LO QUE HACEE
     public static short calularParidad(long x) {
 
         short result = 0;

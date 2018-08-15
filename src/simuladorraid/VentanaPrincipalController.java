@@ -95,7 +95,6 @@ public class VentanaPrincipalController implements Initializable {
         this.opcionesCombo = new ArrayList<>();
         this.opcionesCombo.add("RAID0");
         this.opcionesCombo.add("RAID1");
-        this.opcionesCombo.add("RAID2");
         this.opcionesCombo.add("RAID3");
         this.opcionesCombo.add("RAID4");
         this.opcionesCombo.add("RAID5");
@@ -132,29 +131,28 @@ public class VentanaPrincipalController implements Initializable {
             System.out.println(tipo);
             switch(tipo){
                 case "RAID0":
-                    RAID0 raid0 = new RAID0(archivoAbierto);
+                    RAID0 raid0 = new RAID0(archivoAbierto, this);
                     raid0.ejecutarAlgoritmo();
                     break;
                 case "RAID1":
                     RAID1 raid1 = new RAID1(archivoAbierto);
                     raid1.ejecutarAlgoritmo();
                     break;
-                case "RAID2":
-                    RAID2 raid2 = new RAID2();
-                    break;
                 case "RAID3":
                     RAID3 raid3 = new RAID3(archivoAbierto);
                     raid3.ejecutarAlgoritmo();
                     break;
                 case "RAID4":
-                    RAID4 raid4 = new RAID4();
+                    RAID4 raid4 = new RAID4(archivoAbierto);
+                    raid4.ejecutarAlgoritmo();
                     break;
                 case "RAID5":
                     RAID5 raid5 = new RAID5(archivoAbierto);
                     raid5.ejecutarAlgoritmo();
                     break;
                 case "RAID6":
-                    RAID6 raid6 = new RAID6();
+                    RAID6 raid6 = new RAID6(archivoAbierto);
+                    raid6.ejecutarAlgoritmo();
                     break;
             }
             this.updateTabla();
@@ -165,6 +163,7 @@ public class VentanaPrincipalController implements Initializable {
  
     @FXML
     private void accionBotonMostrar(ActionEvent event) {
+        this.textAreaMostrar.setText("");
         DatoTabla dato = this.tablaArchivo.getSelectionModel().getSelectedItem();
         if(dato==null){
             this.mostrarMensajeAlerta("", "Seleccione una fila de la tabla");
@@ -175,32 +174,27 @@ public class VentanaPrincipalController implements Initializable {
             switch(dato.getTipoRAID()){
                 case "RAID0":
                     RAID0 raid0 = new RAID0();
-                    File arch = raid0.generarArchivo(dato.getNombreArchivo());
-                    this.mostrarArchivoVentana(arch);
+                    raid0.generarArchivo(dato.getNombreArchivo(),this);                   
                     break;
                 case "RAID1":
                     RAID1 raid1 = new RAID1();
-                    File arch1 = raid1.generarArchivo(dato.getNombreArchivo());
-                    this.mostrarArchivoVentana(arch1);
-                    break;
-                case "RAID2":
-                    RAID2 raid2 = new RAID2();
+                    raid1.generarArchivo(dato.getNombreArchivo(), this);
                     break;
                 case "RAID3":
                     RAID3 raid3 = new RAID3();
-                    File arch3 = raid3.generarArchivo(dato.getNombreArchivo());
-                    this.mostrarArchivoVentana(arch3);
+                    raid3.generarArchivo(dato.getNombreArchivo(),this);
                     break;
                 case "RAID4":
                     RAID4 raid4 = new RAID4();
+                    raid4.generarArchivo(dato.getNombreArchivo(), this);
                     break;
                 case "RAID5":
                     RAID5 raid5 = new RAID5();
-                    File arch5 = raid5.generarArchivo(dato.getNombreArchivo());
-                    this.mostrarArchivoVentana(arch5);
+                    raid5.generarArchivo(dato.getNombreArchivo(), this);
                     break;
                 case "RAID6":
                     RAID6 raid6 = new RAID6();
+                    raid6.generarArchivo(dato.getNombreArchivo(), this);
                     break;
             }
         }
@@ -236,5 +230,9 @@ public class VentanaPrincipalController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(texto2);
         alert.showAndWait();
+    }
+    
+    public void modificarTextArea(String texto){
+        this.textAreaMostrar.setText(this.textAreaMostrar.getText()+texto);
     }
 }
