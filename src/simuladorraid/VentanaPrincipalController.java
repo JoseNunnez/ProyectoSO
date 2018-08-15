@@ -8,6 +8,7 @@ package simuladorraid;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -162,7 +163,7 @@ public class VentanaPrincipalController implements Initializable {
 
  
     @FXML
-    private void accionBotonMostrar(ActionEvent event) {
+    private void accionBotonMostrar(ActionEvent event) throws IOException {
         this.textAreaMostrar.setText("");
         DatoTabla dato = this.tablaArchivo.getSelectionModel().getSelectedItem();
         if(dato==null){
