@@ -28,6 +28,7 @@ public class SimuladorRaid extends Application{
            Parent root = FXMLLoader.load(getClass().getResource("VentanaPrincipal.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
+        primaryStage.setTitle("Simulador RAID");
         primaryStage.show();
 
     }

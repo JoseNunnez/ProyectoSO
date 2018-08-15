@@ -134,34 +134,35 @@ public class RAID6 {
                 case 0:
                     //[p2][data1][data2][p1]
                     escritorDisco1.write(paridad2+"");
-                    if(!texto1.equals("null"))escritorDisco2.write(texto1+"");
-                    if(!texto2.equals("null"))escritorDisco3.write(texto2+"");
+                    if(texto1!=null)escritorDisco2.write(texto1+"");
+                    if(texto2!=null)escritorDisco3.write(texto2+"");
                     escritorDisco4.write(paridadXOR+"");
                     break;
                 case 1:
                     //[data1][data2][p1][p2]
-                    if(!texto1.equals("null"))escritorDisco1.write(texto1+"");
-                    if(!texto2.equals("null"))escritorDisco2.write(texto2+"");
+                    System.out.println("T1="+texto1+"T2="+texto2+"P1="+paridadXOR+"P2="+paridad2);
+                    if(texto1!=null)escritorDisco1.write(texto1+"");
+                    if(texto2!=null)escritorDisco2.write(texto2+"");
                     escritorDisco3.write(paridadXOR+"");
                     escritorDisco4.write(paridad2+"");
                     break;
                 case 2:
                     //[data1][p1][p2][data2]
-                    if(!texto1.equals("null"))escritorDisco1.write(texto1+"");
+                    if(texto1!=null)escritorDisco1.write(texto1+"");
                     escritorDisco2.write(paridadXOR+"");
                     escritorDisco3.write(paridad2+"");
-                    if(!texto2.equals("null"))escritorDisco4.write(texto2+"");
+                    if(texto2!=null)escritorDisco4.write(texto2+"");
                     break;
                 default:
                     //[p1][p2][data1][data2]
                     escritorDisco1.write(paridadXOR+"");
                     escritorDisco2.write(paridad2+"");
-                    if(!texto1.equals("null"))escritorDisco3.write(texto1+"");
-                    if(!texto2.equals("null"))escritorDisco4.write(texto2+"");
+                    if(texto1!=null)escritorDisco3.write(texto1+"");
+                    if(texto2!=null)escritorDisco4.write(texto2+"");
                     break;
             }
         }catch(Exception e){
-        
+            System.out.println("ERRRRRRRORRRR");
         }
     }
     
@@ -285,7 +286,7 @@ public class RAID6 {
                 //se obtiene el bit de paridad para las tres lineas
                 short calculoP1 = this.calcularParidadXOR((long)resultado);
                 int calculoP2 = bytesPares(resultado);
-                
+
                 if(paridad1.equals(calculoP1+"") && paridad2.equals(
                                 calculoP2+"")){
                  ventana.modificarTextArea(linea1+linea2);    

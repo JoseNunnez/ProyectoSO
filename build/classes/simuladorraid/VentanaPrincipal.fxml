@@ -8,6 +8,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -22,11 +24,18 @@
                <children>
                   <Label alignment="TOP_RIGHT" contentDisplay="CENTER" text="Simulador de RAID">
                      <font>
-                        <Font size="28.0" />
+                        <Font name="System Bold" size="28.0" />
                      </font>
                      <padding>
                         <Insets bottom="5.0" top="10.0" />
                      </padding>
+                     <effect>
+                        <Lighting bumpInput="$null" specularConstant="0.98" specularExponent="6.05" surfaceScale="0.0">
+                           <light>
+                              <Light.Distant />
+                           </light>
+                        </Lighting>
+                     </effect>
                   </Label>
                   <HBox prefHeight="0.0" prefWidth="678.0" spacing="15.0">
                      <children>
@@ -72,11 +81,11 @@
                <children>
                   <TableView fx:id="tablaArchivo" prefHeight="393.0" prefWidth="200.0">
                     <columns>
-                      <TableColumn fx:id="columnaArchivo" prefWidth="136.0" text="Archivo" />
-                      <TableColumn fx:id="columnaRAID" prefWidth="63.0" text="RAID" />
+                      <TableColumn fx:id="columnaArchivo" prefWidth="129.0" text="Archivo" />
+                      <TableColumn fx:id="columnaRAID" prefWidth="70.0" text="RAID" />
                     </columns>
                   </TableView>
-                  <Button fx:id="botonMostrar" mnemonicParsing="false" onAction="#accionBotonMostrar" prefHeight="37.0" prefWidth="195.0" text="Mostrar" />
+                  <Button fx:id="botonMostrar" mnemonicParsing="false" onAction="#accionBotonMostrar" prefHeight="37.0" prefWidth="200.0" text="Mostrar" />
                </children>
                <opaqueInsets>
                   <Insets />

@@ -123,7 +123,7 @@ public class VentanaPrincipalController implements Initializable {
     private void accionBotonEjecutar(ActionEvent event) {
         if(this.archivoAbierto ==null){
          //MENSAJE DE ERROR
-            this.mostrarMensajeAlerta("Archivo vacío", "Por favor, ingrese un archivo");
+            this.mostrarMensajeAlerta("No ha ingresado un archivo", "Debe ingresar un archivo antes de ejecutar.");
         }
         else{
             String tipo = this.comboRAID.getSelectionModel().getSelectedItem();
@@ -170,7 +170,7 @@ public class VentanaPrincipalController implements Initializable {
         }
         else{
             this.labelRetroalimentacion.setText("Mostrando "+ dato.getNombreArchivo() +
-                                                "generado en "+ dato.getTipoRAID());
+                                                " generado en "+ dato.getTipoRAID());
             switch(dato.getTipoRAID()){
                 case "RAID0":
                     RAID0 raid0 = new RAID0();
